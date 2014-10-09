@@ -49,6 +49,7 @@ You can also **check out [a video introduction of a talk I gave at Devoxx France
       - [setDefaultHeaders](#setdefaultheaders)
       - [setRequestSuffix](#setrequestsuffix)
       - [setUseCannonicalId](#setusecannonicalid)
+      - [setAllow$Properties](#setsllow$properties)
     - [How to configure them globally](#how-to-configure-them-globally)
       - [Configuring in the config](#configuring-in-the-config)
       - [Configuring in the run](#configuring-in-the-run)
@@ -535,6 +536,10 @@ You can set this to either `true` or `false`. By default it's false. If set to t
 #### setEncodeIds
 
 You can set here if you want to URL Encode IDs or not. By default, it's true.
+
+#### setAllow$Properties
+
+You can set this to either `true` or `false`. By default it's false. If set to true, this will allow properties that start with a $ to be passed through the service. If it's set to false than the properties with a $ will be stripped from json objects sent to the service.
 
 ### Accessing configuration
 

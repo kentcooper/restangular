@@ -3,7 +3,7 @@ describe("Restangular", function() {
   var Restangular, $httpBackend;
   var accountsModel, restangularAccounts, restangularAccount0, restangularAccount1;
   var accountsHalModel;
-  var messages, newAccount;
+  var messages, newAccount, newAccountWith$;
 
   // Load required modules
   beforeEach(angular.mock.module("restangular"));
@@ -30,6 +30,8 @@ describe("Restangular", function() {
     }
 
     newAccount = {id: 44, user: "First User", amount: 45, transactions: []};
+
+    newAccountWith$ = {$type: "User", id: 44, user: "First User", amount: 45, transactions: []};
 
     messages = [{id: 23, name: "Gonto"}, {id: 45, name: "John"}]
 
@@ -725,6 +727,37 @@ describe("Restangular", function() {
       var restangularSpaces = R.one("accounts",123).one("buildings", 456).all("spaces");
       expect(restangularSpaces.getRestangularUrl()).toEqual("/accounts/123/buildings/456/spaces");
     });
+  });
+
+  describe("setAllow$Properties", function () {
+      it("should add a new item with data that includes the $ property when setAllow$Properties is true", function () {
+          var R = Restangular.withConfig(function (config) {
+              config.setAllow$Properties(true);
+          });
+          var with$Accounts = R.all("accounts");
+          with$Accounts.post(newAccountWith$).then(function (added) {
+              expect(added.fromServer).toEqual(true);
+              expect(added.id).toEqual(newAccountWith$.id);
+              expect(added.$type).toEqual(newAccountWith$.$type);
+          });
+
+          $httpBackend.expectPOST('/accounts');
+          $httpBackend.flush();
+      });
+      it("should add a new item without the $ property when setAllow$Properties is false", function () {
+          var R = Restangular.withConfig(function (config) {
+              config.setAllow$Properties(false);
+          });
+          var with$Accounts = R.all("accounts");
+          with$Accounts.post(newAccountWith$).then(function (added) {
+              expect(added.fromServer).toEqual(true);
+              expect(added.id).toEqual(newAccountWith$.id);
+              expect(added.$type).toEqual(undefined);
+          });
+
+          $httpBackend.expectPOST('/accounts');
+          $httpBackend.flush();
+      });
   });
 
 

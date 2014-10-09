@@ -480,6 +480,12 @@ module.provider('Restangular', function() {
       return this;
     };
 
+    config.allow$Properties = _.isUndefined(config.allow$Properties) ? false : config.allow$Properties;
+    object.setAllow$Properties = function (properties) {
+        config.allow$Properties = properties;
+        return this;
+    }
+
 
     //Internal values and functions
     config.urlCreatorFactory = {};
@@ -530,7 +536,7 @@ module.provider('Restangular', function() {
           resource[key] = function(data) {
             return $http(_.extend(value, {
               url: url,
-              data: data
+              data: config.allow$Properties ? JSON.stringify(data) : data
             }));
           };
 
