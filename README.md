@@ -49,7 +49,7 @@ You can also **check out [a video introduction of a talk I gave at Devoxx France
       - [setDefaultHeaders](#setdefaultheaders)
       - [setRequestSuffix](#setrequestsuffix)
       - [setUseCannonicalId](#setusecannonicalid)
-      - [setAllow$Properties](#setsllow$properties)
+      - [setAllow$Properties](#setallowproperties)
     - [How to configure them globally](#how-to-configure-them-globally)
       - [Configuring in the config](#configuring-in-the-config)
       - [Configuring in the run](#configuring-in-the-run)
