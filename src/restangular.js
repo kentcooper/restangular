@@ -536,7 +536,7 @@ module.provider('Restangular', function() {
           resource[key] = function(data) {
             return $http(_.extend(value, {
               url: url,
-              data: config.allow$Properties ? JSON.stringify(data) : data
+              data: config.allow$Properties && data !== null && typeof data === 'object' ? JSON.stringify(data) : data
             }));
           };
 

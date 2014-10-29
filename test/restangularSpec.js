@@ -110,6 +110,10 @@ describe("Restangular", function() {
       }
     });
 
+    $httpBackend.whenPOST("/accounts/1/bio").respond(function (method, url, data, headers) {
+        return [201, data, ""];
+    });
+
     // return the status code given
     // e.g.: /error/404 returns 404 Not Found
     var urlRegex = /\/error\/(\d{3})/;
@@ -756,6 +760,19 @@ describe("Restangular", function() {
           });
 
           $httpBackend.expectPOST('/accounts');
+          $httpBackend.flush();
+      });
+      it("should not stringify a string value when setAllow$Properties is true", function () {
+          var R = Restangular.withConfig(function (config) {
+              config.setAllow$Properties(true);
+          });
+          var with$Accounts = R.all("accounts/1/bio");
+          with$Accounts.post("Test String Data").then(function (data) {
+              expect(data).toEqual(jasmine.any(String));
+              expect(data).not.toMatch("\"Test String Data\"")
+          });
+
+          $httpBackend.expectPOST('/accounts/1/bio');
           $httpBackend.flush();
       });
   });
